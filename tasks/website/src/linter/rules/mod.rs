@@ -91,6 +91,9 @@ fn write_rule_doc_pages(table: &RuleTable, outdir: &Path) {
         let plugin_path = outdir.join(&rule.plugin);
         fs::create_dir_all(&plugin_path).unwrap();
         let page_path = plugin_path.join(format!("{}.md", rule.name));
+        if page_path.exists() {
+            fs::remove_file(&page_path).unwrap();
+        }
         println!("{}", page_path.display());
         let docs = render_rule_docs_page(rule).unwrap();
         fs::write(&page_path, docs).unwrap();
